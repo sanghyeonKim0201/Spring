@@ -3,8 +3,10 @@ package com.example.mvcboard.dto
 import com.example.mvcboard.domain.entity.Board
 import java.time.LocalDateTime
 
+
 data class BoardDto(
-    var id : Long,
+
+    var id : Long = 0,
     var author : String,
     var title : String,
     var content : String,

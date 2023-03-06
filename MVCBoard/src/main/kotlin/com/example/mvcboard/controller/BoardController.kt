@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
-class BoardController(@Autowired private var boardService: BoardService) {
+class BoardController(private var boardService: BoardService) {
 
     @GetMapping("/")
     fun list(): String {
@@ -24,7 +25,7 @@ class BoardController(@Autowired private var boardService: BoardService) {
     }
 
     @PostMapping("/post")
-    fun write(boardDto: BoardDto): String{
+    fun write( boardDto: BoardDto): String{
         boardService.savePost(boardDto)
         return "redirect:/"
     }
