@@ -24,10 +24,8 @@ data class Board(
     @Column(columnDefinition = "TEXT", nullable = false)
     var content : String?,
 
-    @CreatedDate
     @Column(updatable = false)
-    var createDate : LocalDateTime?,
+    var createDate : String?,
 
-    @LastModifiedDate
-    var lastDate : LocalDateTime?
+    var lastDate : String?
 )

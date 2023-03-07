@@ -19,7 +19,7 @@ class BoardController(private val boardService: BoardService) {
     fun list(model: Model): ModelAndView {
         var boardList : List<BoardDTO> = boardService.getBoardList()
         model.addAttribute("postList", boardList)
-        return ModelAndView("board/list2")
+        return ModelAndView("board/list")
     }
 
     @GetMapping("/post")

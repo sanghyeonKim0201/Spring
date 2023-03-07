@@ -10,8 +10,8 @@ data class BoardDTO(
     var author : String?,
     var title : String?,
     var content : String?,
-    var createDate : LocalDateTime?,
-    var lastDate : LocalDateTime?
+    var createDate : String?,
+    var lastDate : String?
     ) {
     fun toEntity() : Board{
         var board : Board = Board(id = id

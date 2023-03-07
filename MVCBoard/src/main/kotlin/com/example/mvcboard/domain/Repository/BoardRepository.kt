@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface BoardRepository : JpaRepository<Board, Long> {
+
 }
