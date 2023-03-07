@@ -2,28 +2,35 @@ package com.example.mvcboard.controller
 
 import com.example.mvcboard.dto.BoardDTO
 import com.example.mvcboard.service.BoardService
+import org.slf4j.LoggerFactory
 
-import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.ModelAndView
 
-@Controller
-class BoardController(private var boardService: BoardService) {
+@RestController
+class BoardController(private val boardService: BoardService) {
+    private var logger = LoggerFactory.getLogger(BoardController::class.java)
 
-    @GetMapping("/")
-    fun list(): String {
-        return "board/list"
+    @GetMapping("/board")
+    fun list(model: Model): ModelAndView {
+        var boardList : List<BoardDTO> = boardService.getBoardList()
+        model.addAttribute("postList", boardList)
+        return ModelAndView("board/list2")
     }
 
     @GetMapping("/post")
-    fun post(): String {
-        return "board/post"
+    fun post(): ModelAndView {
+        return ModelAndView("board/post")
     }
 
     @PostMapping("/post")
-    fun write( boardDto: BoardDTO): String{
+    fun write(@ModelAttribute boardDto: BoardDTO): ModelAndView{
         boardService.savePost(boardDto)
-        return "redirect:/"
+        return ModelAndView("board/post")
     }
 
 }

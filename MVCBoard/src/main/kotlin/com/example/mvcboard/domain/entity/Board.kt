@@ -16,17 +16,18 @@ data class Board(
     var id : Long = 0,
 
     @Column(length = 10, nullable = false)
-    var author : String,
+    var author : String?,
 
     @Column(length = 100, nullable = false)
-    var title : String,
+    var title : String?,
 
     @Column(columnDefinition = "TEXT", nullable = false)
     var content : String?,
 
     @CreatedDate
-    var createDate : LocalDateTime,
+    @Column(updatable = false)
+    var createDate : LocalDateTime?,
 
     @LastModifiedDate
-    var lastDate : LocalDateTime
+    var lastDate : LocalDateTime?
 )
