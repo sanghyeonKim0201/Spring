@@ -4,7 +4,7 @@ import com.example.mvcboard.domain.entity.Board
 import java.time.LocalDateTime
 
 
-data class BoardDto(
+data class BoardDTO(
 
     var id : Long = 0,
     var author : String,

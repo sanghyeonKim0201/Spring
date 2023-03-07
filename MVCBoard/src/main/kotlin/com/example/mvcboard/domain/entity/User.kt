@@ -8,20 +8,20 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var u_no: Long = 0,
+    var no: Long = 0,
 
     @Column(length = 10, nullable = false)
-    var u_name : String,
+    var name : String?,
 
     @Column(length = 100, nullable = false)
-    var u_id : String,
+    var id : String?,
 
     @Column(length = 100, nullable = false)
-    var u_pw : String,
+    var pw : String?,
 
     @Column(length = 13, nullable = false)
-    var u_phone : String,
+    var phone : String?,
 
     @Column(length = 10, nullable = false)
-    var u_birth : String
+    var birth : String?
 )

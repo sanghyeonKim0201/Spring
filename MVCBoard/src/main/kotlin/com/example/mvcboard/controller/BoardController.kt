@@ -1,15 +1,11 @@
 package com.example.mvcboard.controller
 
-import com.example.mvcboard.dto.BoardDto
+import com.example.mvcboard.dto.BoardDTO
 import com.example.mvcboard.service.BoardService
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class BoardController(private var boardService: BoardService) {
@@ -25,7 +21,7 @@ class BoardController(private var boardService: BoardService) {
     }
 
     @PostMapping("/post")
-    fun write( boardDto: BoardDto): String{
+    fun write( boardDto: BoardDTO): String{
         boardService.savePost(boardDto)
         return "redirect:/"
     }

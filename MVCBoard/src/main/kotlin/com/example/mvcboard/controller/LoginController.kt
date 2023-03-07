@@ -1,23 +1,29 @@
 package com.example.mvcboard.controller
 
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import com.example.mvcboard.dto.UserDTO
+import com.example.mvcboard.service.UserService
+import com.mysql.cj.log.Log
+import org.springframework.web.bind.annotation.*
+import java.util.logging.Logger
 
-@Controller
+@RestController
+@RequestMapping("/login")
+class LoginController(private var userService: UserService) {
 
-class LoginController {
-
-    @GetMapping("/login")
+    @GetMapping
     fun LoginView() : String{
         return "login/login"
     }
 
-    @PostMapping("/login")
-    fun Login(@RequestParam("id")id : String, @RequestParam("pw")pw : String): String{
+    @PostMapping
+    fun Login(@ModelAttribute userDTO: UserDTO): String{
+        println(userDTO)
+        var u = userService.login(userDTO)
 
+        if(u == null){
+            return "login/login"
+        }
+        println("Login OK")
         return "login/login"
     }
 
