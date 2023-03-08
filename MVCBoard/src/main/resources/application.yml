@@ -21,7 +21,7 @@ spring:
     show-sql: true # 콘솔에 JPA 실행 쿼리를 출력
     hibernate:
       format_sql: true #콘솔에 출력되는 JPA 실행 쿼리를 가독성 있게 표현해준다
-      ddl-auto: create #데이터베이스 초기화 전략을 설정
+      ddl-auto: validate #데이터베이스 초기화 전략을 설정
     properties:
       hibernate:
         format_sql: true
@@ -35,4 +35,13 @@ spring:
             descriptor:
               sql:
                 BasicBinder: TRACE
+springdoc:
+  packages-to-scan: com.colabear754.springdoc_example.controllers
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
 
