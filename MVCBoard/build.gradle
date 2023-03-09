@@ -18,8 +18,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'//swagger
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'//swagger
+
 	implementation 'mysql:mysql-connector-java:8.0.32'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web' //spring MVC를 사용한 REST 서비스를 개발하는데 사용

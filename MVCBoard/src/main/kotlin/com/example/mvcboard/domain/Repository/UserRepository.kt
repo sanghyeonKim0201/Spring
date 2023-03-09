@@ -12,8 +12,10 @@ interface UserRepository: JpaRepository<User, Long>{
     fun findByIdAndPw(id : String?, pw : String?) : Optional<User>
     fun findById(id : String?) : Optional<User>
     fun findByPw(pw : String?) : Optional<User>
-    fun findByNo(no : String?) : Optional<User>
+    fun findByUserNo(userNo : Long) : Optional<User>
     fun findByBirth(birth : String?) : Optional<User>
     fun findByName(name : String?) : Optional<User>
     fun findByPhone(phone : String?) : Optional<User>
+
+    fun deleteByUserNo(userNo: Long)
 }

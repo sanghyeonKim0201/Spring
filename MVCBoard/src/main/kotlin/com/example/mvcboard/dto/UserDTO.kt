@@ -1,18 +1,19 @@
 package com.example.mvcboard.dto
 
 import com.example.mvcboard.domain.entity.User
+import java.time.LocalDate
 
 data class UserDTO(
-    var no : Long = 0,
+    var userNo : Long = 0,
     var name : String? = null,
     var id : String? = null,
     var pw : String? = null,
     var phone : String? = null,
-    var birth : String? = null
+    var birth : LocalDate? = null
 ){
     fun toEntity() : User{
         var user = User(
-            no = no,
+            userNo = userNo,
             name = name,
             id = id,
             pw = pw,
@@ -23,7 +24,7 @@ data class UserDTO(
 
     fun toUserDTO(user: User) : UserDTO{
         return UserDTO(
-            no = user.no,
+            userNo = user.userNo,
             name = user.name,
             id = user.id,
             pw = user.pw,

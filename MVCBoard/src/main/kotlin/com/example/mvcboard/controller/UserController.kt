@@ -2,58 +2,55 @@ package com.example.mvcboard.controller
 
 import com.example.mvcboard.dto.UserDTO
 import com.example.mvcboard.service.UserService
-import io.swagger.v3.oas.annotations.Hidden
-import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 
-@Tag(name = "UserController", description = "로그인, 회원가입 등")
+
 @RestController
 class UserController(private val userService: UserService) {
 
     val logger = LoggerFactory.getLogger(UserController::class.java)
 
-
-    @Hidden
-    @GetMapping("/login")
+    @GetMapping("/user/login")
     fun loginView() : ModelAndView{
-        return ModelAndView("login/login")
+        return ModelAndView("user/login")
+    }
+    @GetMapping("/user/join")
+    fun joinView(): ModelAndView {
+        return ModelAndView("user/signup")
+    }
+    @GetMapping("/user/{userNo}")
+    fun editView() : ModelAndView{
+        return ModelAndView("user/edit")
     }
 
-    @Operation(summary = "로그인 API", description = "로그인을 시도하는 API")
-    @Parameter(name = "id", description = "ID 텍스트박스 이름 ex) <input type=\"text\" name=\"id\">")
-    @Parameter(name = "PW", description = "PW 텍스트박스 이름 ex) <input type=\"text\" name=\"pw\">")
-    @PostMapping("/login")
+    @PostMapping("/api/user/login")
     fun login(@ModelAttribute userDTO: UserDTO): ModelAndView{
         var u = userService.login(userDTO)
 
         if(u == null){
-            return ModelAndView("login/login")
+            return ModelAndView("user/login")
         }
-        logger.info("${u.no} 로그인")
+        logger.info("${u.userNo} 로그인")
         return ModelAndView("board/list")
     }
-
-    @Hidden
-    @GetMapping("/signup")
-    fun signUpView(): ModelAndView {
-        return ModelAndView("signup/signup")
-    }
-
-    @Operation(summary = "회원가입 API", description = "회원가입을 시도하는 API")
-    @Parameter(name = "id", description = "ID 텍스트박스 이름 ex) <input type=\"text\" name=\"id\">")
-    @Parameter(name = "PW", description = "PW 텍스트박스 이름 ex) <input type=\"text\" name=\"pw\">")
-    @Parameter(name = "name", description = "name 텍스트박스 이름 ex) <input type=\"text\" name=\"name\">")
-    @Parameter(name = "phone", description = "phone 텍스트박스 이름 ex) <input type=\"text\" name=\"phone\">")
-    @Parameter(name = "birth", description = "birth 텍스트박스 이름 ex) <input type=\"text\" name=\"birth\">")
-    @PostMapping("/signup")
+    @PostMapping("/api/user/join")
     fun signup(@ModelAttribute userDTO: UserDTO): ModelAndView {
         if(userService.signUp(userDTO) == null){
-            return ModelAndView("signup/signup")
+            return ModelAndView("user/join")
         }
-        return ModelAndView("login/login")
+        return ModelAndView("user/login")
+    }
+
+    @PutMapping("/api/user/{userNo}")
+    fun userUpdate(@PathVariable("userNo")userNo : Long, @ModelAttribute userDTO: UserDTO) : ModelAndView{
+        userService.userUpdate(userNo, userDTO)
+        return ModelAndView()
+    }
+
+    @DeleteMapping("/api/user/{userNo}")
+    fun userDelete(@PathVariable("userNo")userNo: Long){
+        userService.userDelete(userNo)
     }
 }

@@ -8,10 +8,6 @@ import kotlin.reflect.full.memberProperties
 @Service
 class UserService(private var userRepository: UserRepository){
 
-//    fun saveUser(userDTO: UserDTO) {
-//        userRepository.save(userDTO.toEntity())
-//    }
-
     fun signUp(userDTO: UserDTO) : Long?{
 
         for(user in UserDTO::class.memberProperties){
@@ -40,7 +36,7 @@ class UserService(private var userRepository: UserRepository){
             println("phone")
             return null
         }
-        return userRepository.save(userDTO.toEntity()).no
+        return userRepository.save(userDTO.toEntity()).userNo
     }
 
     fun login(userDTO: UserDTO) : UserDTO?{
@@ -50,5 +46,18 @@ class UserService(private var userRepository: UserRepository){
         }else{
             return null
         }
+    }
+
+    fun loadData(uno: Long) : UserDTO{
+        return UserDTO().toUserDTO(userRepository.findByUserNo(uno).get())
+    }
+
+    fun userUpdate(uno : Long, userDTO: UserDTO){
+        userDTO.userNo = uno
+        userRepository.save(userDTO.toEntity())
+    }
+
+    fun userDelete(uno: Long){
+        userRepository.deleteByUserNo(uno)
     }
 }

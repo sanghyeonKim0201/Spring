@@ -11,12 +11,8 @@ import java.time.format.DateTimeFormatter
 @Service
 class BoardService(private var boardRepository: BoardRepository) { //생성자가 하나일 경우 @Autowired 생략 가능
 
-    fun savePost(boardDto: BoardDTO) : Long{
-        if(boardDto.createDate == null){
-            boardDto.createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).toString()
-            boardDto.lastDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).toString()
-        }
-        return boardRepository.save(boardDto.toEntity()).id
+    fun savePost(boardDto: BoardDTO){
+        boardRepository.save(boardDto.toEntity())
     }
 
     fun getBoardList() : List<BoardDTO>{
@@ -25,12 +21,12 @@ class BoardService(private var boardRepository: BoardRepository) { //생성자�
 
         for(b in board){
             var boardDTO = BoardDTO(
-                id = b.id,
+                boardNo = b.boardNo,
                 title = b.title,
                 content = b.content,
-                author = b.author,
-                createDate = b.createDate,
-                lastDate = b.lastDate
+                userNo = b.userNo,
+                createdDate = b.createdDate,
+                lastModifiedDate = b.lastModifiedDate
             )
 
             boardList.add(boardDTO)
