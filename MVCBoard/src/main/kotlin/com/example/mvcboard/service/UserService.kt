@@ -12,7 +12,7 @@ class UserService(private var userRepository: UserRepository){
 
     fun join(userDTO: UserDTO) : ModelAndView{
         var fail = ModelAndView("users/join")
-        var success = ModelAndView("users/login")
+        var success = ModelAndView("redirect:/users/login")
         for(user in UserDTO::class.memberProperties){
             if(user.get(userDTO) == ""){
                 fail.addObject("message", "빈칸이 존재합니다")

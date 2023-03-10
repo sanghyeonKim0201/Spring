@@ -4,8 +4,6 @@ import com.example.mvcboard.dto.UserDTO
 import com.example.mvcboard.service.UserService
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
@@ -41,7 +39,7 @@ class UserController(private val userService: UserService) {
         return ModelAndView("posts/list")
     }
     @PostMapping("/api/users/join")
-    fun signup(@ModelAttribute @Valid userDTO: UserDTO, bindingResult: BindingResult): ModelAndView {
+    fun join(@ModelAttribute @Valid userDTO: UserDTO, bindingResult: BindingResult): ModelAndView {
         if(bindingResult.hasErrors()){
             logger.error("errors : ${bindingResult.fieldError}")
             var field = bindingResult.allErrors.stream().findAny().map { (it as FieldError).field }.get()
@@ -49,10 +47,8 @@ class UserController(private val userService: UserService) {
             logger.error("${field}, ${defaultMessage}")
             return ModelAndView("users/join").addObject("message", "${field}")
         }
-        if(userService.join(userDTO) == null){
-            return ModelAndView("users/join")
-        }
-        return ModelAndView("users/login")
+
+        return userService.join(userDTO)
     }
 
 
