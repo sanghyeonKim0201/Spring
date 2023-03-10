@@ -23,7 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web' //spring MVC를 사용한 REST 서비스를 개발하는데 사용
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'//jpa 사용
-	implementation 'org.springframework.boot:spring-boot-starter-validation'//@valid 사용
+	implementation 'org.springframework.boot:spring-boot-starter-validation'//@valid 사용 유효성 검증
 	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'

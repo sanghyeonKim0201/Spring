@@ -2,7 +2,12 @@ package com.example.mvcboard.controller
 
 import com.example.mvcboard.dto.UserDTO
 import com.example.mvcboard.service.UserService
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 
@@ -12,44 +17,52 @@ class UserController(private val userService: UserService) {
 
     val logger = LoggerFactory.getLogger(UserController::class.java)
 
-    @GetMapping("/user/login")
+    @GetMapping("/users/login")
     fun loginView() : ModelAndView{
-        return ModelAndView("user/login")
+        return ModelAndView("users/login")
     }
-    @GetMapping("/user/join")
+    @GetMapping("/users/join")
     fun joinView(): ModelAndView {
-        return ModelAndView("user/signup")
+        return ModelAndView("users/join")
     }
-    @GetMapping("/user/{userNo}")
+    @GetMapping("/users/{userNo}")
     fun editView() : ModelAndView{
-        return ModelAndView("user/edit")
+        return ModelAndView("users/edit")
     }
 
-    @PostMapping("/api/user/login")
+    @PostMapping("/api/users/login")
     fun login(@ModelAttribute userDTO: UserDTO): ModelAndView{
         var u = userService.login(userDTO)
 
         if(u == null){
-            return ModelAndView("user/login")
+            return ModelAndView("users/login")
         }
         logger.info("${u.userNo} 로그인")
-        return ModelAndView("board/list")
+        return ModelAndView("posts/list")
     }
-    @PostMapping("/api/user/join")
-    fun signup(@ModelAttribute userDTO: UserDTO): ModelAndView {
-        if(userService.signUp(userDTO) == null){
-            return ModelAndView("user/join")
+    @PostMapping("/api/users/join")
+    fun signup(@ModelAttribute @Valid userDTO: UserDTO, bindingResult: BindingResult): ModelAndView {
+        if(bindingResult.hasErrors()){
+            logger.error("errors : ${bindingResult.fieldError}")
+            var field = bindingResult.allErrors.stream().findAny().map { (it as FieldError).field }.get()
+            var defaultMessage = bindingResult.allErrors.stream().findAny().map { it.defaultMessage }.get()
+            logger.error("${field}, ${defaultMessage}")
+            return ModelAndView("users/join").addObject("message", "${field}")
         }
-        return ModelAndView("user/login")
+        if(userService.join(userDTO) == null){
+            return ModelAndView("users/join")
+        }
+        return ModelAndView("users/login")
     }
 
-    @PutMapping("/api/user/{userNo}")
-    fun userUpdate(@PathVariable("userNo")userNo : Long, @ModelAttribute userDTO: UserDTO) : ModelAndView{
+
+    @PutMapping("/api/users/{userNo}")
+    fun userUpdate(@PathVariable("userNo")userNo : Long, @ModelAttribute @Valid userDTO: UserDTO) : ModelAndView{
         userService.userUpdate(userNo, userDTO)
         return ModelAndView()
     }
 
-    @DeleteMapping("/api/user/{userNo}")
+    @DeleteMapping("/api/users/{userNo}")
     fun userDelete(@PathVariable("userNo")userNo: Long){
         userService.userDelete(userNo)
     }

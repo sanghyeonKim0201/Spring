@@ -3,40 +3,51 @@ package com.example.mvcboard.service
 import com.example.mvcboard.domain.Repository.UserRepository
 import com.example.mvcboard.dto.UserDTO
 import org.springframework.stereotype.Service
+import org.springframework.web.servlet.ModelAndView
+import java.time.LocalDate
 import kotlin.reflect.full.memberProperties
 
 @Service
 class UserService(private var userRepository: UserRepository){
 
-    fun signUp(userDTO: UserDTO) : Long?{
-
+    fun join(userDTO: UserDTO) : ModelAndView{
+        var fail = ModelAndView("users/join")
+        var success = ModelAndView("users/login")
         for(user in UserDTO::class.memberProperties){
             if(user.get(userDTO) == ""){
-                return null
+                fail.addObject("message", "빈칸이 존재합니다")
+                return fail
             }
         }
         //아이디 중복 체크
         var bySign = userRepository.findById(userDTO.id)
         if (bySign.isPresent){
-            println("id")
-            return null
+            fail.addObject("message", "이미 존재하는 아이디 입니다")
+            return fail
         }
         //이름 최소 2자리 부터, 특수문자를 제외한 한글, 알파벳 대소문자
         if(userDTO.name.toString().length < 2 || !Regex(".*[ㄱ-힣 | A-z].*").matches(userDTO.name.toString())){
-            println("name")
-            return null
+            fail.addObject("message", "이름은 최소 2자리 부터, 특수문자를 제외한 한글, 알파벳 대소문자로 이루어져 있어야 합니다")
+            return fail
         }
         //생년월일 체크
-        if(!Regex("\\d{4}-\\d{2}-\\d{2}").matches(userDTO.birth.toString())){
-            println("birth")
-            return null
+        try {
+            var birth : LocalDate = LocalDate.parse(userDTO.birth.toString())
+            if(birth.toEpochDay() > LocalDate.now().toEpochDay()){
+                fail.addObject("message", "미래의 날짜 입니다")
+                return fail
+            }
+        }catch (e : Exception){
+            fail.addObject("message", "생년월일 형식은 yyyy-MM-dd 입니다")
+            return fail
         }
+
         //phone 체크
         if(!Regex("\\d{3}-\\d{4}-\\d{4}").matches(userDTO.phone.toString())){
-            println("phone")
-            return null
+            fail.addObject("message", "전화번호 형식은 010-0000-0000 입니다")
+            return fail
         }
-        return userRepository.save(userDTO.toEntity()).userNo
+        return success
     }
 
     fun login(userDTO: UserDTO) : UserDTO?{

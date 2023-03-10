@@ -15,22 +15,22 @@ import org.springframework.web.servlet.ModelAndView
 class BoardController(private val boardService: BoardService) {
     private var logger = LoggerFactory.getLogger(BoardController::class.java)
 
-//    @GetMapping("/board")
-//    fun list(model: Model): ModelAndView {
-//        var boardList : List<BoardDTO> = boardService.getBoardList()
-//        model.addAttribute("postList", boardList)
-//        return ModelAndView("board/list")
-//    }
-//
-//    @GetMapping("/post")
-//    fun post(): ModelAndView {
-//        return ModelAndView("board/post")
-//    }
-//
-//    @PostMapping("/post")
-//    fun write(@ModelAttribute boardDto: BoardDTO): ModelAndView{
-//        boardService.savePost(boardDto)
-//        return ModelAndView("board/post")
-//    }
+    @GetMapping("/")
+    fun list(model: Model): ModelAndView {
+        var boardList : List<BoardDTO> = boardService.getBoardList()
+        model.addAttribute("postList", boardList)
+        return ModelAndView("posts/list")
+    }
+
+    @GetMapping("/posts/write")
+    fun post(): ModelAndView {
+        return ModelAndView("posts/write")
+    }
+
+    @PostMapping("/api/posts/write")
+    fun write(@ModelAttribute boardDto: BoardDTO): ModelAndView{
+        boardService.savePost(boardDto)
+        return ModelAndView("posts/write")
+    }
 
 }
