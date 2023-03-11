@@ -12,7 +12,8 @@ class UserService(private var userRepository: UserRepository){
 
     fun join(userDTO: UserDTO) : ModelAndView{
         var fail = ModelAndView("users/join")
-        var success = ModelAndView("redirect:/users/login")
+        var success = ModelAndView("users/login")
+//        var success = ModelAndView("redirect:/users/login")
         for(user in UserDTO::class.memberProperties){
             if(user.get(userDTO) == ""){
                 fail.addObject("message", "빈칸이 존재합니다")
@@ -47,6 +48,8 @@ class UserService(private var userRepository: UserRepository){
             fail.addObject("message", "전화번호 형식은 010-0000-0000 입니다")
             return fail
         }
+
+        userRepository.save(userDTO.toEntity())
         return success
     }
 
@@ -69,6 +72,7 @@ class UserService(private var userRepository: UserRepository){
     }
 
     fun userDelete(uno: Long){
-        userRepository.deleteByUserNo(uno)
+        println("uno : ${uno}")
+        userRepository.deleteById(uno)
     }
 }

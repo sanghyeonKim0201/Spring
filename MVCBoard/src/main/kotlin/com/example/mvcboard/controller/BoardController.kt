@@ -8,6 +8,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
@@ -28,9 +29,9 @@ class BoardController(private val boardService: BoardService) {
     }
 
     @PostMapping("/api/posts/write")
-    fun write(@ModelAttribute boardDto: BoardDTO): ModelAndView{
+    fun write(@RequestBody boardDto: BoardDTO): ModelAndView{
         boardService.savePost(boardDto)
-        return ModelAndView("posts/write")
+        return ModelAndView("redirect:/")
     }
 
 }

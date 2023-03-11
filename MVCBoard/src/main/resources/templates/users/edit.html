@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>정보수정</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>회원가입</title>
 </head>
 <body>
-
+<form action="/api/users/{userNo}", method="post">
+    <input type="hidden", name="_method" value="PUT">
+    <label for="inputName">Name</label>
+    <input type="text" name="name" id="inputName"><br>
+    <label for="inputId">Id</label>
+    <input type="text" name="id" id="inputId"><br>
+    <label for="inputPw">Pw</label>
+    <input type="text" name="pw" id="inputPw"><br>
+    <label for="inputPhone">Phone</label>
+    <input type="text" name="phone" id="inputPhone"><br>
+    <label for="inputBirth">Birth</label>
+    <input type="text" name="birth" id="inputBirth"><br>
+    <input type="submit" value="edit">
+</form>
 </body>
 </html>
